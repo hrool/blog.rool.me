@@ -1,0 +1,31 @@
+baseurl = "/"
+title = "Rool's blog"
+languageCode = "zh-cn"
+paginate = "10" # Number of posts per page
+theme = "mainroad"
+disqusShortname = "" # Enable comments by entering your Disqus shortname
+googleAnalytics = "" # Enable Google Analytics by entering your tracking id
+
+[Author]
+    name = "Rool"
+    bio = "Rool is a developer, writer and family man"
+    avatar = ""
+
+
+[Params]
+    subtitle = "rool's another site" # Subtitle of your site
+    description = "You can find everything I love. Enjoy!" # Description of your site
+    opengraph = true
+    readmore = true # Show "Read more" button in list if true
+    leftsidebar = false # Move sidebar to the left side if true
+    authorbox = true
+    post_navigation = true
+    postSections = ["post"]
+
+
+[Params.widgets]
+    search = true # Enable "Search" widget
+    recent_articles = true # Enable "Recent arcticles" widget
+    categories = true # Enable "Categories" widget
+    tags = false # Enable "Tags" widget
+        tags_counter = true # Enable counter for each tag in "Tags" widget (disabled by default)
