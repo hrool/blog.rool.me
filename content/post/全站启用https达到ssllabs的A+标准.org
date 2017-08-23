@@ -1,0 +1,58 @@
+---
+title: "全站启用https达到ssllabs的A+标准"
+date: 2017-08-23T22:49:10+08:00
+draft: false
+---
+
+
+* 证书获取
+  正式使用Letsencrypt获取.
+
+* nginx配置关键点
+#+BEGIN_SRC 
+server {
+    listen 80;
+    server_name blog.rool.me;
+    return 301 https://$server_name$request_uri;
+}
+server {
+    listen       443 ssl http2;
+    server_name  blog.rool.me;
+
+    ssl                     on;
+    ssl_prefer_server_ciphers on;
+    ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+    ssl_certificate     /usr/local/etc/letsencrypt/live/blog.rool.me/fullchain.pem;
+    ssl_certificate_key  /usr/local/etc/letsencrypt/live/blog.rool.me/privkey.pem;
+    # openssl dhparam -out dh4096.pem 4096 生成dh4096.pem
+    ssl_dhparam         /usr/local/etc/letsencrypt/dh4096.pem;
+    ssl_stapling on;
+    ssl_stapling_verify on;
+    ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
+    ssl_session_cache shared:TLS:2m;
+    ssl_session_timeout     10m;
+    add_header Strict-Transport-Security 'max-age=63072000; includeSubDomains';
+    location / {
+        root /usr/local/www/blog.rool.me;
+        index index.html index.htm;
+    }
+}
+#+END_SRC
+
+** ssl_prefre_server_ciphers on
+   协商证书的时候, 以服务器的标准为优先, 避免使用客户端的不安全的协商.
+
+** ssl_dhparam
+   nginx默认使用1024进行交换, 这里用4096
+
+** oscp开启
+   ssl_stapling ssl_stapling_verify
+
+** ssl_siphers
+   这里选择mozilla推荐的设置,安全强度高,最新的推荐可查看Mozilla的官方文档
+
+** add_header加入hsts
+   可以一定程度防止证书欺骗, 最好是加入浏览器的hsts列表, 但是有很多条件, 比如全站必须开启https,http都指向https,header有效期必须一年,加入Preload等..
+
+* 结果
+  最后本站获得了ssllab评分为A+, 如果不启用hsts最多只能获得A
