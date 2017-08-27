@@ -3,15 +3,16 @@ title: "博客以及其他服务迁移至gcloud"
 date: 2017-08-23T22:39:56+08:00
 draft: false
 ---
+迁移了一些服务到gcloud, 不再使用一些免费的服务
 
-
+# more
 
 * 迁移了以下服务至gcloud
 
 ** dns
    原来使用dnspod, 出现过letsencrypt不能解析导致ssl证书不能获取,然后迁移至cloudxns
    现在由于cloudxns不支持caa记录,再加上想装B把dns服务器名称换成自己的,就在gcloud上用powerdns搭建了一个dns服务器.
-
+<!--more-->
 ** hugo生成的博客
    以前托管在国内的coding,可惜现在coding如果不是金牌会员就会出现一个强制的过度页面...,然后促使我迁移到gcloud,同时换了一个主题.
 

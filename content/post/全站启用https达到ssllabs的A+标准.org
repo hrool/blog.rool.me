@@ -4,6 +4,9 @@ date: 2017-08-23T22:49:10+08:00
 draft: false
 ---
 
+经过努力, 使用本站达到了ssllabs的A+标准
+
+# more
 
 * 证书获取
   正式使用Letsencrypt获取.
