@@ -1,6 +1,6 @@
 baseURL = "https://blog.rool.me"
 languageCode = "zh-cmn-Hans"
-title = "ROOL's Blog"
+title = "Rool的博客"
 theme = "hugo-nuo"
 enableRobotsTXT = true
 pygmentsuseclasses = true

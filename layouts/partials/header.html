@@ -1,7 +1,5 @@
 <header class="site-header">
-  <a href="/">
   <img class="avatar" src="{{ .Site.Params.avatar }}" alt="Avatar">
-  </a>
   <a href="/">
   {{  if eq .Kind "home" }}
   <h1 class="title">{{ .Site.Title }}</h1>
@@ -20,7 +18,7 @@
       {{ $kind := .Kind }}
       {{ $currentPage := . }}
       {{ range .Site.Menus.main }}
-        <li class="menu-item {{ if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }} is-active{{ end }}{{ if eq .Identifier $currentPage.Data.Term}} is-active{{ end }}{{if in $currentPage.Params.categories .Name }} is-active {{end}} "><a href="{{ .URL }}">{{ .Name }}</a></li>
+        <li class="menu-item {{ if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }} is-active{{ end }}{{ if eq .Identifier $currentPage.Data.Term}} is-active{{ end }}{{if in $currentPage.Params.categories .Name }} is-active {{ end }} "><a href="{{ .URL }}">{{ .Name }}</a></li>
       {{ end }}
     </ul>
   </nav>

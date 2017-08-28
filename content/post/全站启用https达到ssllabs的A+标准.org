@@ -1,8 +1,10 @@
----
-title: "全站启用https达到ssllabs的A+标准"
-date: 2017-08-23T22:49:10+08:00
-draft: false
----
++++
+title = "全站启用https达到ssllabs的A+标准"
+date = 2017-08-23T22:49:10+08:00
+categories = [ "技术" ]  # 技术,思绪,生活 
+tags = [ "ssl","https","nginx" ]
+draft = false
++++
 
 经过努力, 使用本站达到了ssllabs的A+标准
 
