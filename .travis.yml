@@ -1,0 +1,7 @@
+language: go
+git:
+  submodules: true
+install:
+  - go get github.com/spf13/hugo
+script:
+  - hugo
