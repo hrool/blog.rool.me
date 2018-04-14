@@ -4,6 +4,15 @@ language: go
 git:
   submodules: true
 install:
-  - go get github.com/spf13/hugo
+- go get github.com/spf13/hugo
 script:
-  - hugo
+- hugo
+deploy:
+  secret_access_key:
+    secure: kBRrRwYvevgUGzTgmP7nQaRdjK9qjVoeNts1NE0KerSmEEJnwUbOAXTnndtFSOvIXOgApI55W05TYAYkU/lvn/xTpoKGcv2CKtzTBMO9E095px3r4DlgE5VLVLO9C3praZbC3EkqTPh7PiwfApHlf9TwrHViArVt+wmQXxMLIHX6tnFkQESNfrMhjwUUttv+Rta+ITcaTRxBG4DEyX0f5CV8S1Hu1KBabrdNxBDQVLDAH8gyC4h1Cg6t+xwVn8DEcX/gQQ4iBk/wiOszEyoBRLvTVXjVZDSCJS/kVgLreZPf5ouvxchDp0PXdYqUPkuboMGD0k25wZ0NPlBl8OkBqhz0NkkcOE+FkYWc1//IrL2yCKS6YJuJkmMV6Zyn0RF9unYsMMWyNizZ4sv/J5Wpaa1SIGdTUUxlLhR8jAjv+9FKQA2J1Ra1FvrBr3KtO7SM/tnOJamAMlyo5USDNbsCkGuBMPpXEoGNbR/rrH10x98Rm018KyxY8c1XP3ii71yFR3NKzlTFoi3AbymwP3KrlEqRID2rod0Kt8j/IeB9FvWYoWB11ZfGUiMtKKfru6xtTQCiiuK/swQ0ofDkJTqZYAX4HtHfwyd7lmi8w6q44nGGkXMK7anM4OQ62plEvuIbjhz4ah321A6apLKlLZ46/9ksy2HOxrR46WkwQTwEcXA=
+  provider: s3
+  access_key_id: "AKIAJ4EFHYK4Z66XLVNA"
+  skip_cleanup: true
+  bucket: "arn:aws:s3:::blog.rool.me"
+  local_dir: public
+  region: "ap-southeast-1"
