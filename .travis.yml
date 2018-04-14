@@ -13,6 +13,6 @@ deploy:
   provider: s3
   access_key_id: "AKIAJ4EFHYK4Z66XLVNA"
   skip_cleanup: true
-  bucket: "arn:aws:s3:::blog.rool.me"
+  bucket: "blog.rool.me"
   local_dir: public
   region: "ap-southeast-1"
