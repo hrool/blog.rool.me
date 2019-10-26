@@ -1,0 +1,73 @@
++++
+title = "gpg使用攻略"
+date = 2019-10-02T16:39:56+08:00
+draft = false
+categories = [ "技术" ]  # 技术,思绪,生活 
+tags = [ "签名","加密","认证","ecc","ssh","gpg","email" ]
++++
+使用gpg能做的一些事情, 以及一些注意事项和建议.
+
+# more
+
+* gpg能用来干嘛
+1. 加密/解密 
+2. 签名
+3. 认证
+<!--more-->
+* gpg软件准备
+这里都指GnuPG
+linux发行版都可以直接通过软件仓库安装, apt/yum
+macOS可以用brew安装
+版本要求:  >= 2.1.7
+理由: GnuPG 2.1.7开始, 支持Curve25519, 有兴趣的朋友可以去了解一下Curve25519 Ed25519  ecdsa rsa等算法的区别和对比.
+我们这里选择最优和最安全的, 所以就是Curve25519和Ed25519
+
+* 使用过程
+** 生成主密钥, 有效期为永久
+#+BEGIN_SRC bash
+$gpg --expert --full-gen-key
+gpg (GnuPG/MacGPG2) 2.2.0; Copyright (C) 2017 Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+请选择您要使用的密钥种类：
+   (1) RSA and RSA (default)
+   (2) DSA and Elgamal
+   (3) DSA (仅用于签名)
+   (4) RSA (仅用于签名)
+   (7) DSA (自定义用途)
+   (8) RSA (自定义用途)
+   (9) ECC and ECC
+  (10) ECC (sign only)
+  (11) ECC (set your own capabilities)
+  (13) Existing key
+您的选择？ 9
+
+Please select which elliptic curve you want:
+   (1) Curve 25519
+   (3) NIST P-256
+   (4) NIST P-384
+   (5) NIST P-521
+   (6) Brainpool P-256
+   (7) Brainpool P-384
+   (8) Brainpool P-512
+   (9) secp256k1
+您的选择？ 1
+
+请设定这把密钥的有效期限。
+         0 = 密钥永不过期
+      <n>  = 密钥在 n 天后过期
+      <n>w = 密钥在 n 周后过期
+      <n>m = 密钥在 n 月后过期
+      <n>y = 密钥在 n 年后过期
+密钥的有效期限是？(0) 0
+
+
+#+END_SRC
+** 使用主密钥生成三个子密钥,分别为加密,签署,认证, 有效期一年
+** 导出主密钥和公钥, 离线多地保存, 删除主密钥/公钥
+** 加密/解密的过程
+** 签署的过程
+** 加密+签署
+** 认证的使用办法(ssh)
+** 配合yubikey使用
