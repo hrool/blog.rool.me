@@ -1,9 +1,9 @@
 dist: bionic
 git:
   submodules: true
-before_install:
-  - sudo apt-get update
-  - sudo apt-get -y install hugo
+addons:
+  snaps:
+    - hugo
 script: hugo
 deploy:
   secret_access_key:
