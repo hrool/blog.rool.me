@@ -1,10 +1,9 @@
-sudo: false
 dist: bionic
-language: go
 git:
   submodules: true
-install:
-- go get github.com/gohugoio/hugo
+before_install:
+  - sudo apt-get update
+  - sudo apt-get -y install hugo
 script: hugo
 deploy:
   secret_access_key:
