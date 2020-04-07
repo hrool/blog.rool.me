@@ -1,107 +1,110 @@
+# This is a simple configuration.
+# If you want to see the full configuration, please check `full-config.toml` .
+# And see https://gohugo.io/getting-started/configuration/ .
+
 baseURL = "https://blog.rool.me"
 languageCode = "zh-cmn-Hans"
-title = "Rool的博客"
-theme = "hugo-nuo"
+title = "rool的博客"
 enableRobotsTXT = true
-pygmentsuseclasses = true
-PygmentsCodeFences = true
-canonifyurls = true
+enableEmoji = true
+theme = "jane"
 
-# Disqus Username
-disqusShortname = "blog-rool-me"
+hasCJKLanguage = true     # has chinese/japanese/korean ? # 自动检测是否包含 中文\日文\韩文
+paginate = 10              # Number of articles displayed on the homepage  # 首页每页显示的文章数
+rssLimit = 20             # Limit Entry Count to Rss file # 限制 Rss 文章输出数量
+#disqusShortname = ""      # disqus_shortname
+#googleAnalytics = ""      # UA-XXXXXXXX-X
+copyright = ""            # default: author.name ↓        # 默认为下面配置的author.name ↓
 
-# Google Analytics UA number
-# googleAnalytics = "UA-XXXXXXXX-X"
+# Highlight options. See https://gohugo.io/content-management/syntax-highlighting/
+pygmentsCodeFences = true # Enable syntax highlighting with GitHub flavoured code fences
+pygmentsUseClasses = true # Use CSS classes to format highlighted code
+pygmentsCodefencesGuessSyntax = true
+pygmentsOptions = "linenos=table"
 
-# Copyright of your post
-copyright = "© This post is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License，please give source if you likes to quote or reproduce."
+# language support # en / zh-cn / other... translations present in i18n/
+defaultContentLanguage = "zh-cn"           # Default language to use
+[languages.zh-cn]
+  languageCode = "zh-cn"
 
-# Initial site menu, you can extend menu with content.
-[[menu.main]]
+[author]                  # essential                     # 必需
+  name = "rool"
+
+[sitemap]                 # essential                     # 必需
+  changefreq = "weekly"
+  priority = 0.5
+  filename = "sitemap.xml"
+
+[[menu.main]]             # config your menu              # 配置目录
   name = "首页"
   weight = 10
   identifier = "home"
   url = "/"
-
 [[menu.main]]
   name = "思绪"
   weight = 20
-  identifier = "思绪"
   url = "/categories/思绪"
-
 [[menu.main]]
   name = "技术"
   weight = 30
-  identifier = "技术"
   url = "/categories/技术"
-
 [[menu.main]]
   name = "生活"
   weight = 40
-  identifier = "生活"
   url = "/categories/生活"
+[[menu.main]]
+  name = "归档"
+  weight = 50
+  url = "/post/"
 
 
-# Add your own params here
 [params]
-  author = "Rool"
-  avatar = "/img/avatar.jpg"
-  # seotitle = "Hugo Blog (SEO Version)"
-  subtitle = "~ Keep It Simple & Stupid ~"
-  description = "Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again."
-  paginate = 10
+  since = "2014"            # Site creation time          # 站点建立时间
+  homeFullContent = false   # if false, show post summaries on home page. Otherwise show full content.
+  rssFullContent = true     # if false, Rss feed instead of the summary
 
-  # Choose your social networks
-  email = "heqing@rool.me"
-  github = "hrool"
-  # twitter = "twitter_username"
-  # linkedin = "linkedin_username"
-  # weibo = "weibo_username"
-  # wechat= "/img/qrcode.jpg" # Replace with your wechat qrcode image
-  # facebook = "facebook_username"
-  # google = "googlplus_id_number"
-  # instagram = "instagram_username"
-  # youtube = "youtube_username"
-  # vimeo = "vimeo_username"
-  # medium = "medium_username"
-  # quora = "quora_username"
-  # pinterest = "pinterest_username"
-  # dribbble = "dribbble_username"
-  # behance = "behance_username"
-  # jsfiddle = "jsfiddle_username"
-  # codepen = "codepen_username"
-  # zhihu = "zhihu_username"
-  # douban = "douban_username"
-  # bilibili = "bilibili_id_number"
+  # site info (optional)                                  # 站点信息（可选，不需要的可以直接注释掉）
+  logoTitle = "rool"        # default: the title value    # 默认值: 上面设置的title值
+  keywords = ["linux", "笔记", "博客", "blog", "Hugo"]
+  description = "这是我的生活."
 
-  # Changyan Comments (China Only)
-  # changyan = false
-  # changyanId = "cyt3toRiB"
-  # changyanConf = "prod_0908b1cb9a581501753cce1ed074dbe3"
+  # The date format to use; for a list of valid formats, see https://gohugo.io/functions/format/
+  dateFormatToUse = "2006-01-02"
 
-  # Google Webmaster
-  # https://www.google.com/webmasters/
-  # googleSiteVerification = "_moDmnnBNVLBN1rzNxyGUGdPHE20YgbmrtzLIbxaWFc"
+  # 一些全局开关，你也可以在每一篇内容的 front matter 中针对单篇内容关闭或开启某些功能，在 archetypes/default.md 查看更多信息。
+  # Some global options, you can also close or open something in front matter for a single post, see more information from `archetypes/default.md`.
+  toc = true                                                                            # 是否开启目录
+  photoswipe = true         # see https://github.com/dimsemenov/PhotoSwipe            # 是否启用PhotoSwipe（图片可点击）
+  #contentCopyright = '<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a>'
+  contentCopyright = '原创文章，如需转载请注明文章作者和出处。谢谢！'
 
-  # Bing Webmaster
-  # https://www.bing.com/toolbox/webmaster/
-  # msValidate = "22596E34341DD1D17D6022C44647E587"
+  # Link custom CSS and JS assets
+  #   (relative to /static/css and /static/js respectively)
+  customCSS = []            # if ['custom.css'], load '/static/css/custom.css' file
+  customJS = []             # if ['custom.js'], load '/static/js/custom.js' file
 
-  # Baidu Webmaster (China Only)
-  # https://zhanzhang.baidu.com/
-  # baiduSiteVerification = "MZ23SPxxfa"
+  [params.social]                                         # 社交链接
+    a-email = "mailto:your@email.com"
+#    b-stack-overflow = "http://localhost:1313"
+#    c-twitter = "http://localhost:1313"
+#    d-facebook = "http://localhost:1313"
+#    e-linkedin = "http://localhost:1313"
+#    f-google = "http://localhost:1313"
+    g-github = "http://localhost:1313"
+#    h-weibo = "http://localhost:1313"
+#    i-zhihu = "http://localhost:1313"
+#    j-douban = "http://localhost:1313"
+#    k-pocket = "http://localhost:1313"
+#    l-tumblr = "http://localhost:1313"
+#    m-instagram = "http://localhost:1313"
+#    n-gitlab = "http://localhost:1313"
+#    o-goodreads = "http://localhost:1313"
+#    p-coding = "http://localhost:1313"
+#    q-bilibili = "http://localhost:1313"
+#    r-codeforces = "http://localhost:1313"
+#    s-mastodon = "http://localhost:1313"
 
-  # Sogou Webmaster (China Only)
-  # http://zhanzhang.sogou.com/
-  # sogouSiteVerification = "m2jktMQTZm"
-
-  # 360 Webmaster (China Only)
-  # http://zhanzhang.so.com/
-  # soSiteVerification = "b7ab3b4c2edbc856642004d1b8c27a91"
-
-  # Baidu Tongji (China Only)
-  # https://tongji.baidu.com/
-  baiduTongji = "3832c5945971ac03ae56a706f39b037f"
-
-  # ICP Number (China Only)
-  # ICP = "苏ICP备16005986号-2"
+  [params.counter.leancloud]  # Chinese leancloud visitor counter  # leancloud 计数器
+  enable = true
+  appId = "IhA6hUzStXvYY5BJRC1MuAku-gzGzoHsz"
+  appKey = "kk7SvOFUF2M8qq3kxdKxAijw"
