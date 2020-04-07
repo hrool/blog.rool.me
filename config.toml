@@ -104,7 +104,7 @@ defaultContentLanguage = "zh-cn"           # Default language to use
 #    r-codeforces = "http://localhost:1313"
 #    s-mastodon = "http://localhost:1313"
 
-  [params.counter.leancloud]  # Chinese leancloud visitor counter  # leancloud 计数器
-  enable = true
-  appId = "8vfFX0dnJJFgfPY8ONByAxqx-MdYXbMMI"
-  appKey = "A8eyO1VzkSO6nWwgxmXgz8YT"
+  [params.utteranc]         # utteranc is a comment system based on GitHub issues. see https://utteranc.es
+    enable = true
+    repo = "hrool/blog.rool.me"    # The repo to store comments
+    issueTerm = "comment"
