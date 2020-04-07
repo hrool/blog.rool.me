@@ -106,5 +106,5 @@ defaultContentLanguage = "zh-cn"           # Default language to use
 
   [params.counter.leancloud]  # Chinese leancloud visitor counter  # leancloud 计数器
   enable = true
-  appId = "IhA6hUzStXvYY5BJRC1MuAku-gzGzoHsz"
-  appKey = "kk7SvOFUF2M8qq3kxdKxAijw"
+  appId = "8vfFX0dnJJFgfPY8ONByAxqx-MdYXbMMI"
+  appKey = "A8eyO1VzkSO6nWwgxmXgz8YT"

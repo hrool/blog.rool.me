@@ -1,10 +1,9 @@
-+++
-title = "博客以及其他服务迁移至gcloud"
-date = 2017-08-23T22:39:56+08:00
-draft = false
-categories = [ "技术" ]  # 技术,思绪,生活 
-tags = [ "dns","gcloud","hugo","email" ]
-+++
+#+title: 博客以及其他服务迁移至gcloud
+#+date: 2017-08-23T22:39:56+08:00
+#+draft: false
+#+categories[]: 技术 
+#+tags[]: dns gcloud hugo email
+
 迁移了一些服务到gcloud, 不再使用一些免费的服务
 
 # more
