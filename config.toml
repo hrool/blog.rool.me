@@ -107,4 +107,4 @@ defaultContentLanguage = "zh-cn"           # Default language to use
   [params.utteranc]         # utteranc is a comment system based on GitHub issues. see https://utteranc.es
     enable = true
     repo = "hrool/blog.rool.me"    # The repo to store comments
-    issueTerm = "comment"
+    issueTerm = "pathname"
