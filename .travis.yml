@@ -16,4 +16,4 @@ deploy:
   region: "ap-southeast-1"
 after_success:
   - curl -sSf http://uptoc.saltbo.cn/install.sh | sh
-  - uptoc --endpoint oss-cn-hongkong.aliyuncs.com --bucket blog-rool-me
+  - uptoc --endpoint oss-cn-hongkong.aliyuncs.com --bucket blog-rool-me --access_key $UPTOC_ID --access_secret $UPTOC_SECRET --uploader public
