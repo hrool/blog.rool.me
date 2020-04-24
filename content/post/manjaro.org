@@ -1,0 +1,79 @@
+#+title: "Manjaro"
+#+date: 2020-04-24T23:21:35+08:00
+#+draft: true
+#+categories[]: 技术/思绪/生活 
+#+tags[]:
+#+comments = true
+
+
+# more
+manjaro
+创建日期 星期日 05 四月 2020
+
+选择manjaro的原因： 省事， 可能不如debian稳定， 但是已经足够稳定， 没有感觉到ubuntu那种随意崩溃的情况。至于deepin，太定制化了， 例如firefox里面用的本地化版本。
+
+安装过程
+安装grub引导的时候， 显卡驱动选择non-free，语言选择中文， 时区都选择好， 后面就可以直接中文， 并安装闭源驱动。
+打开安装程序之前， 可以先拔掉网线， 或者打开”添加/删除软件“pamac(pacman,snap等的图形管理界面， 默认的)把软件源选择为中国。 密码是manjaro, 不然可能卡在97%的时候， misc之类。
+
+安装后的系统配置
+
+软件源配置
+1. 选择中国的源
+sudo pacman-mirrors -i -c China -m rank
+sudo pacman -Syy
+也可以在pamac里面图形的方式选择。
+2. 添加archlinuxcn的源，一些国内特有软件在里面， 比如网易云音乐， qq等
+/etc/pacman.conf 末尾加入：
+[archlinuxcn]
+SigLevel = Optional TrustedOnly
+Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
+sudo pacman -Syyu
+sudo pacman -S archlinuxcn-keyring
+
+配置ohmyzsh
+选择ohmyzsh的原因， 相对方便， 同时又不像fish那样跟bash有很多不兼容的， 如果觉得ohmyzsh慢，可以把自动更新关闭， 大部分慢是这个原因。
+chsh -s /bin/zsh
+zsh --version
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+可以打开.zshrc进行配置。
+
+中文输入法
+fcitx和ibus都可以。 搜狗是基于fcitx，在manjaro下面并不稳定。 我这里选择的是fcitx+googlepinyin+cloudpinyin
+vim ~/.pam_environment # 第一次登录会有执行这个
+GTK_IM_MODULE=fcitx
+QT_IM_MODULE=fcitx
+XMODIFIERS=@im=fcitx
+
+yubikey设置
+我有一个yubikey 5 nfc， 根密钥是进行离线保存的，这里在pamac里面搜索安装yubikey manager会自动把需要的软件和驱动都安装好。
+
+gpg设置
+首先确认和设置默认的kyeserver
+gpgconf --list-options gpg | grep server  # 发现默认的keyserver没有设置。
+vim ~/.gnupg/gpg.conf 
+添加： keyserver hkps://keys.openpgp.org
+gpg --search-keys heqing@rool.me 可以看见以前上传的公钥信息。
+
+插入yubikey然后运行 gpg --card-status 可以查看到yubikey里面的gpg相关内容， 可以发现General key info是空的， 
+gpg --card-edit  
+gpg/card> fetch  
+gpg/card> quit
+再运行gpg --card-status 可以看见General key info已经有内容了， 同时 gpg --list-keys 可以看见子密钥
+信任子密钥操作：
+gpg --edit-key heqing@rool.me
+可以在输出里面看见 ”私密子密钥可用“ 说明我们这里只有子密钥
+输入trust， 选择5 进行信任
+
+ssh设置
+vim .zshrc
+添加：
+GPG_TTY=$(tty)
+SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+gpgconf --launch gpg-agent
+运行一次， 或者重启后， 
+运行ssh-add -L 如果看见了队员的cardno的公钥， 说明一切设置OK
+下面就可以用yubikey来进行ssh认证， 还有gpg签名了， 测试一下， 没问题。
+
+go语言环境
+安装go后， 在.pam_environment中加入GOPROXY=https://goproxy.cn， 避免gfw干扰
