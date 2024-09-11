@@ -4,7 +4,7 @@
 
 baseURL = "https://blog.rool.me"
 languageCode = "zh-cmn-Hans"
-title = "rool的博客"
+title = "我的生活经历"
 enableRobotsTXT = true
 enableEmoji = true
 theme = "jane"
@@ -26,9 +26,6 @@ pygmentsOptions = "linenos=table"
 defaultContentLanguage = "zh-cn"           # Default language to use
 [languages.zh-cn]
   languageCode = "zh-cn"
-
-[author]                  # essential                     # 必需
-  name = "rool"
 
 [sitemap]                 # essential                     # 必需
   changefreq = "weekly"
@@ -59,6 +56,8 @@ defaultContentLanguage = "zh-cn"           # Default language to use
 
 
 [params]
+  [params.author]
+    name = "rool"
   since = "2014"            # Site creation time          # 站点建立时间
   homeFullContent = false   # if false, show post summaries on home page. Otherwise show full content.
   rssFullContent = true     # if false, Rss feed instead of the summary
@@ -84,13 +83,13 @@ defaultContentLanguage = "zh-cn"           # Default language to use
   customJS = []             # if ['custom.js'], load '/static/js/custom.js' file
 
   [params.social]                                         # 社交链接
-    a-email = "mailto:your@email.com"
+    a-email = "mailto:heqing@rool.me"
 #    b-stack-overflow = "http://localhost:1313"
 #    c-twitter = "http://localhost:1313"
 #    d-facebook = "http://localhost:1313"
 #    e-linkedin = "http://localhost:1313"
 #    f-google = "http://localhost:1313"
-    g-github = "http://localhost:1313"
+    g-github = "https://github.com/hrool"
 #    h-weibo = "http://localhost:1313"
 #    i-zhihu = "http://localhost:1313"
 #    j-douban = "http://localhost:1313"
