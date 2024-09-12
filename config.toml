@@ -4,7 +4,7 @@
 
 baseURL = "https://blog.rool.me"
 languageCode = "zh-cmn-Hans"
-title = "我的生活经历"
+title = "rool - 我的生活经历"
 enableRobotsTXT = true
 enableEmoji = true
 theme = "jane"
@@ -14,11 +14,12 @@ paginate = 10              # Number of articles displayed on the homepage  # 首
 rssLimit = 20             # Limit Entry Count to Rss file # 限制 Rss 文章输出数量
 #disqusShortname = ""      # disqus_shortname
 #googleAnalytics = ""      # UA-XXXXXXXX-X
-copyright = ""            # default: author.name ↓        # 默认为下面配置的author.name ↓
+copyright = "rool - 我的生活经历 | <a href='https://beian.miit.gov.cn/'>蜀ICP备18031429号-2</a>"            # default: author.name ↓        # 默认为下面配置的author.name ↓
 
 # Highlight options. See https://gohugo.io/content-management/syntax-highlighting/
+pygmentsStyle = "github-dark" # Pygments code highlighting style
 pygmentsCodeFences = true # Enable syntax highlighting with GitHub flavoured code fences
-pygmentsUseClasses = true # Use CSS classes to format highlighted code
+pygmentsUseClasses = false # Use CSS classes to format highlighted code
 pygmentsCodefencesGuessSyntax = true
 pygmentsOptions = "linenos=table"
 
@@ -56,26 +57,31 @@ defaultContentLanguage = "zh-cn"           # Default language to use
 
 
 [params]
-  [params.author]
-    name = "rool"
   since = "2014"            # Site creation time          # 站点建立时间
   homeFullContent = false   # if false, show post summaries on home page. Otherwise show full content.
   rssFullContent = true     # if false, Rss feed instead of the summary
 
+  author.name = "rool"      # essential                     # 必需
+  author.email = "heqing@rool.me" # optional, for RSS             # 可选
+  author.url = "/about"        # optional                      # 可选
+
   # site info (optional)                                  # 站点信息（可选，不需要的可以直接注释掉）
-  logoTitle = "rool"        # default: the title value    # 默认值: 上面设置的title值
+  logoTitle = "rool - 我的生活经历"        # default: the title value    # 默认值: 上面设置的title值
   keywords = ["linux", "笔记", "博客", "blog", "Hugo"]
   description = "这是我的生活."
 
   # The date format to use; for a list of valid formats, see https://gohugo.io/functions/format/
   dateFormatToUse = "2006-01-02"
 
+  # show word count and read time ?                       # 是否显示字数统计与阅读时间
+  moreMeta = true
+
   # 一些全局开关，你也可以在每一篇内容的 front matter 中针对单篇内容关闭或开启某些功能，在 archetypes/default.md 查看更多信息。
   # Some global options, you can also close or open something in front matter for a single post, see more information from `archetypes/default.md`.
   toc = true                                                                            # 是否开启目录
   photoswipe = true         # see https://github.com/dimsemenov/PhotoSwipe            # 是否启用PhotoSwipe（图片可点击）
-  #contentCopyright = '<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a>'
-  contentCopyright = '原创文章，如需转载请注明文章作者和出处。谢谢！'
+  contentCopyright = '<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a>'
+
 
   # Link custom CSS and JS assets
   #   (relative to /static/css and /static/js respectively)
@@ -103,7 +109,26 @@ defaultContentLanguage = "zh-cn"           # Default language to use
 #    r-codeforces = "http://localhost:1313"
 #    s-mastodon = "http://localhost:1313"
 
-  [params.utteranc]         # utteranc is a comment system based on GitHub issues. see https://utteranc.es
+#   [params.utteranc]         # utteranc is a comment system based on GitHub issues. see https://utteranc.es
+#     enable = true
+#     repo = "hrool/blog.rool.me"    # The repo to store comments
+#     issueTerm = "pathname"
+  [params.reward]                                         # 文章打赏
     enable = true
-    repo = "hrool/blog.rool.me"    # The repo to store comments
-    issueTerm = "pathname"
+    wechat = "/img/reward_wechat.jpg"           # 微信二维码
+    # alipay = "/img/"           # 支付宝二维码
+  [params.giscus]         # giscus is a comment system based on GitHub Discussions. see https://giscus.app
+    enable = true
+    repo = "hrool/blog.rool.me"
+    repoId = "MDEwOlJlcG9zaXRvcnkxMDEwNjU5NTY="
+    category = "Announcements"
+    categoryId = "DIC_kwDOBgYk5M4CiZzH"
+    mapping = "pathname"  # comment value is the default value
+    strict = 0
+    reactionsEnabled = 1
+    emitMetadata = 0
+    inputPosition = "bottom"
+    theme = "light"
+    lang = "zh-CN"
+    lazyLoading = false
+    crossorigin="anonymous"
