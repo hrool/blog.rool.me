@@ -38,4 +38,4 @@ jobs:
           OSS_ENDPOINT: ${{ secrets.OSS_ENDPOINT }}
         run: |
           ossutil config -e $OSS_ENDPOINT -i $OSS_ACCESS_KEY_ID -k $OSS_ACCESS_KEY_SECRET
-          ossutil sync public/ oss://$OSS_BUCKET/ 
+          ossutil sync public/ oss://$OSS_BUCKET/  --force
