@@ -2,7 +2,7 @@
 # If you want to see the full configuration, please check `full-config.toml` .
 # And see https://gohugo.io/getting-started/configuration/ .
 
-baseURL = "https://blog.rool.me"
+baseURL = "https://www.rool.me"
 languageCode = "zh-cmn-Hans"
 title = "rool - 我的生活经历"
 enableRobotsTXT = true
