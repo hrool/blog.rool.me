@@ -2,6 +2,7 @@
 #+date: 2017-08-23T22:49:10+08:00
 #+categories[]: 技术
 #+tags[]: ssl https nginx
+#+slug:  enable-https-ssllabs-a-plus
 #+draft: false
 
 经过努力, 使用本站达到了ssllabs的A+标准
