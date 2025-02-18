@@ -1,4 +1,4 @@
-name: Deploy to Aliyun OSS
+name: Deploy to Aliyun ECS via SSH
 
 on:
   push:
@@ -24,18 +24,18 @@ jobs:
       - name: Build site
         run: hugo --minify
 
-      - name: Install OSSUtil
-        run: |
-          wget https://gosspublic.alicdn.com/ossutil/1.7.19/ossutil-v1.7.19-linux-amd64.zip
-          unzip ossutil-v1.7.19-linux-amd64.zip
-          mv ossutil-v1.7.19-linux-amd64/ossutil /usr/local/bin/ossutil
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
 
-      - name: Sync to Aliyun OSS
-        env:
-          OSS_ACCESS_KEY_ID: ${{ secrets.OSS_ACCESS_KEY_ID }}
-          OSS_ACCESS_KEY_SECRET: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
-          OSS_BUCKET: ${{ secrets.OSS_BUCKET }}
-          OSS_ENDPOINT: ${{ secrets.OSS_ENDPOINT }}
+      - name: Add SSH known hosts
         run: |
-          ossutil config -e $OSS_ENDPOINT -i $OSS_ACCESS_KEY_ID -k $OSS_ACCESS_KEY_SECRET
-          ossutil sync public/ oss://$OSS_BUCKET/  --force
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+
+      - name: Copy files via rsync
+        run: |
+          rsync -avz --delete public/ root@bd8dhf.com:/var/www/rool.me/
+          ssh root@bd8dhf.com 'chown -R www-data:www-data /var/www/rool.me/'
+          ssh root@bd8dhf.com 'systemctl restart nginx'
