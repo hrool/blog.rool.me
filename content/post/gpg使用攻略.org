@@ -104,6 +104,7 @@ uid                      何庆 Ching He <heqing@rool.me>
 
 #+END_SRC
 ** 使用主密钥生成三个子密钥,分别为加密,签署,认证
+#+BEGIN_SRC bash
 gpg --expert --edit-key 05426E81010BD7E474010F590ACF9AD8D2A9937D                                                                                     INT ✘  2m 39s   23:18:44  
 gpg (GnuPG) 2.4.8; Copyright (C) 2025 g10 Code GmbH
 This is free software: you are free to change and redistribute it.
@@ -291,21 +292,21 @@ gpg> save
 
 #+END_SRC
 ** 导出主密钥和公钥, 离线多地保存, 删除主密钥/公钥
-`gpg --export-secret-keys 0ACF9AD8D2A9937D > ./heqing@rool.me_full_keys `
-`gpg --export-secret-subkeys 0ACF9AD8D2A9937D > ./heqing@rool.me_subkeys`
-`gpg --export 0ACF9AD8D2A9937D > ./heqing@rool.me_pub`
-来个吊销密钥
-`gpg --gen-revoke 0ACF9AD8D2A9937D > ./heqing@rool.me_revoke `
-
+#+BEGIN_SRC bash
+gpg --export-secret-keys 0ACF9AD8D2A9937D > ./heqing@rool.me_full_keys 
+gpg --export-secret-subkeys 0ACF9AD8D2A9937D > ./heqing@rool.me_subkeys
+gpg --export 0ACF9AD8D2A9937D > ./heqing@rool.me_pub
+#来个吊销密钥
+gpg --gen-revoke 0ACF9AD8D2A9937D > ./heqing@rool.me_revoke 
+#+END_SRC
 ** 加密/解密的过程
 ** 签署的过程
 ** 加密+签署
 ** 认证的使用办法(ssh)
-#+BEGIN_SRC bash
 下面的操作其实有点不合适和优雅, 我选择用gpg的认证子密钥来进行ssh认证, 但是并不想用gpg-agent来认证,我这里采用1password-agent来进行认证
 因为我平常用1password, 这样认证会更精细, 但是1password不支持gpg进行ssh认证, 于是我就需要用工具转换一下, 以前有一个monkeysphere的包,里面有openpgp2ssh的python工具.
 但是已经失效. 这里采用go写的一个库
-
+#+BEGIN_SRC bash
 git clone git@github.com:pinpox/pgp2ssh.git
 cd pgp2ssh
 go build
