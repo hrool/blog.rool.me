@@ -1,5 +1,5 @@
 #+title: gpg使用攻略
-#+date: 2019-10-02T16:39:56+08:00
+#+date: 2025-12-12T16:39:56+08:00
 #+draft: false
 #+categories[]: 技术 
 #+tags[]: 签名 加密 认证 ecc ssh gpg email
@@ -23,27 +23,47 @@ macOS可以用brew安装
 
 * 使用过程
 ** 生成主密钥, 有效期为永久
+**这里一定注意, 只生成认证（Certify）**
 #+BEGIN_SRC bash
-$gpg --expert --full-gen-key
-gpg (GnuPG/MacGPG2) 2.2.0; Copyright (C) 2017 Free Software Foundation, Inc.
+gpg --expert --full-generate-key                                                                                                                           ✔  11m 56s   23:09:50  
+gpg (GnuPG) 2.4.8; Copyright (C) 2025 g10 Code GmbH
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
 
-请选择您要使用的密钥种类：
-   (1) RSA and RSA (default)
-   (2) DSA and Elgamal
-   (3) DSA (仅用于签名)
-   (4) RSA (仅用于签名)
-   (7) DSA (自定义用途)
-   (8) RSA (自定义用途)
-   (9) ECC and ECC
-  (10) ECC (sign only)
-  (11) ECC (set your own capabilities)
-  (13) Existing key
-您的选择？ 9
+请选择您要使用的密钥类型：
+   (1) RSA 和 RSA 
+   (2) DSA 和 Elgamal 
+   (3) DSA（仅用于签名）
+   (4) RSA（仅用于签名）
+   (7) DSA（自定义用途）
+   (8) RSA（自定义用途）
+   (9) ECC（签名和加密） *默认*
+  (10) ECC（仅用于签名）
+  (11) ECC（自定义用途）
+  (13) 现有密钥 
+ （14）卡中现有密钥 
+您的选择是？ 11
 
-Please select which elliptic curve you want:
-   (1) Curve 25519
+ECC 密钥的可实现的功能： 签名（Sign） 认证（Certify） 身份验证（Authenticate） 
+目前启用的功能： 签名（Sign） 认证（Certify） 
+
+   (S) 签名功能开关
+   (A) 身份验证功能开关
+   (Q) 已完成
+
+您的选择是？ s
+
+ECC 密钥的可实现的功能： 签名（Sign） 认证（Certify） 身份验证（Authenticate） 
+目前启用的功能： 认证（Certify） 
+
+   (S) 签名功能开关
+   (A) 身份验证功能开关
+   (Q) 已完成
+
+您的选择是？ q
+请选择您想要使用的椭圆曲线：
+   (1) Curve 25519 *默认*
+   (2) Curve 448
    (3) NIST P-256
    (4) NIST P-384
    (5) NIST P-521
@@ -51,22 +71,264 @@ Please select which elliptic curve you want:
    (7) Brainpool P-384
    (8) Brainpool P-512
    (9) secp256k1
-您的选择？ 1
-
-请设定这把密钥的有效期限。
+您的选择是？ 
+请设定这个密钥的有效期限。
          0 = 密钥永不过期
       <n>  = 密钥在 n 天后过期
       <n>w = 密钥在 n 周后过期
       <n>m = 密钥在 n 月后过期
       <n>y = 密钥在 n 年后过期
-密钥的有效期限是？(0) 0
+密钥的有效期限是？(0) 
+密钥永远不会过期
+这些内容正确吗？ (y/N) y
 
+GnuPG 需要构建用户标识以辨认您的密钥。
+
+真实姓名： 何庆 Ching He
+电子邮件地址： heqing@rool.me
+注释： 
+您正在使用‘utf-8’字符集。
+您选定了此用户标识：
+    “何庆 Ching He <heqing@rool.me>”
+
+更改姓名（N）、注释（C）、电子邮件地址（E）或确定（O）/退出（Q）？ o
+我们需要生成大量的随机字节。在质数生成期间做些其他操作（敲打键盘
+、移动鼠标、读写硬盘之类的）将会是一个不错的主意；这会让随机数
+发生器有更好的机会获得足够的熵。
+gpg: 吊销证书已被存储为‘/home/qing/.gnupg/openpgp-revocs.d/05426E81010BD7E474010F590ACF9AD8D2A9937D.rev’
+公钥和私钥已经生成并被签名。
+
+pub   ed25519 2025-12-12 [C]
+      05426E81010BD7E474010F590ACF9AD8D2A9937D
+uid                      何庆 Ching He <heqing@rool.me>
 
 #+END_SRC
-** 使用主密钥生成三个子密钥,分别为加密,签署,认证, 有效期一年
+** 使用主密钥生成三个子密钥,分别为加密,签署,认证
+gpg --expert --edit-key 05426E81010BD7E474010F590ACF9AD8D2A9937D                                                                                     INT ✘  2m 39s   23:18:44  
+gpg (GnuPG) 2.4.8; Copyright (C) 2025 g10 Code GmbH
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+私钥可用。
+
+sec  ed25519/0ACF9AD8D2A9937D
+     创建于：2025-12-12  有效至：永不       可用于：C   
+     信任度：绝对        有效性：绝对
+[ 绝对 ] (1). 何庆 Ching He <heqing@rool.me>
+
+gpg> addkey
+请选择您要使用的密钥类型：
+   (3) DSA（仅用于签名）
+   (4) RSA（仅用于签名）
+   (5) ElGamal（仅用于加密）
+   (6) RSA（仅用于加密）
+   (7) DSA（自定义用途）
+   (8) RSA（自定义用途）
+  (10) ECC（仅用于签名）
+  (11) ECC（自定义用途）
+  (12) ECC（仅用于加密）
+  (13) 现有密钥 
+ （14）卡中现有密钥 
+您的选择是？ 10
+请选择您想要使用的椭圆曲线：
+   (1) Curve 25519 *默认*
+   (2) Curve 448
+   (3) NIST P-256
+   (4) NIST P-384
+   (5) NIST P-521
+   (6) Brainpool P-256
+   (7) Brainpool P-384
+   (8) Brainpool P-512
+   (9) secp256k1
+您的选择是？ 
+请设定这个密钥的有效期限。
+         0 = 密钥永不过期
+      <n>  = 密钥在 n 天后过期
+      <n>w = 密钥在 n 周后过期
+      <n>m = 密钥在 n 月后过期
+      <n>y = 密钥在 n 年后过期
+密钥的有效期限是？(0) 
+密钥永远不会过期
+这些内容正确吗？ (y/N) y
+真的要创建吗？(y/N) y
+我们需要生成大量的随机字节。在质数生成期间做些其他操作（敲打键盘
+、移动鼠标、读写硬盘之类的）将会是一个不错的主意；这会让随机数
+发生器有更好的机会获得足够的熵。
+
+sec  ed25519/0ACF9AD8D2A9937D
+     创建于：2025-12-12  有效至：永不       可用于：C   
+     信任度：绝对        有效性：绝对
+ssb  ed25519/A442A8BD5C05A571
+     创建于：2025-12-12  有效至：永不       可用于：S   
+[ 绝对 ] (1). 何庆 Ching He <heqing@rool.me>
+
+gpg> addkey
+请选择您要使用的密钥类型：
+   (3) DSA（仅用于签名）
+   (4) RSA（仅用于签名）
+   (5) ElGamal（仅用于加密）
+   (6) RSA（仅用于加密）
+   (7) DSA（自定义用途）
+   (8) RSA（自定义用途）
+  (10) ECC（仅用于签名）
+  (11) ECC（自定义用途）
+  (12) ECC（仅用于加密）
+  (13) 现有密钥 
+ （14）卡中现有密钥 
+您的选择是？ 12
+请选择您想要使用的椭圆曲线：
+   (1) Curve 25519 *默认*
+   (2) Curve 448
+   (3) NIST P-256
+   (4) NIST P-384
+   (5) NIST P-521
+   (6) Brainpool P-256
+   (7) Brainpool P-384
+   (8) Brainpool P-512
+   (9) secp256k1
+您的选择是？ 
+请设定这个密钥的有效期限。
+         0 = 密钥永不过期
+      <n>  = 密钥在 n 天后过期
+      <n>w = 密钥在 n 周后过期
+      <n>m = 密钥在 n 月后过期
+      <n>y = 密钥在 n 年后过期
+密钥的有效期限是？(0) 
+密钥永远不会过期
+这些内容正确吗？ (y/N) y
+真的要创建吗？(y/N) y
+我们需要生成大量的随机字节。在质数生成期间做些其他操作（敲打键盘
+、移动鼠标、读写硬盘之类的）将会是一个不错的主意；这会让随机数
+发生器有更好的机会获得足够的熵。
+
+sec  ed25519/0ACF9AD8D2A9937D
+     创建于：2025-12-12  有效至：永不       可用于：C   
+     信任度：绝对        有效性：绝对
+ssb  ed25519/A442A8BD5C05A571
+     创建于：2025-12-12  有效至：永不       可用于：S   
+ssb  cv25519/33086EB02C3025AC
+     创建于：2025-12-12  有效至：永不       可用于：E   
+[ 绝对 ] (1). 何庆 Ching He <heqing@rool.me>
+
+gpg> addkey
+请选择您要使用的密钥类型：
+   (3) DSA（仅用于签名）
+   (4) RSA（仅用于签名）
+   (5) ElGamal（仅用于加密）
+   (6) RSA（仅用于加密）
+   (7) DSA（自定义用途）
+   (8) RSA（自定义用途）
+  (10) ECC（仅用于签名）
+  (11) ECC（自定义用途）
+  (12) ECC（仅用于加密）
+  (13) 现有密钥 
+ （14）卡中现有密钥 
+您的选择是？ 11
+
+ECC 密钥的可实现的功能： 签名（Sign） 身份验证（Authenticate） 
+目前启用的功能： 签名（Sign） 
+
+   (S) 签名功能开关
+   (A) 身份验证功能开关
+   (Q) 已完成
+
+您的选择是？ a
+
+ECC 密钥的可实现的功能： 签名（Sign） 身份验证（Authenticate） 
+目前启用的功能： 签名（Sign） 身份验证（Authenticate） 
+
+   (S) 签名功能开关
+   (A) 身份验证功能开关
+   (Q) 已完成
+
+您的选择是？ s
+
+ECC 密钥的可实现的功能： 签名（Sign） 身份验证（Authenticate） 
+目前启用的功能： 身份验证（Authenticate） 
+
+   (S) 签名功能开关
+   (A) 身份验证功能开关
+   (Q) 已完成
+
+您的选择是？ q
+请选择您想要使用的椭圆曲线：
+   (1) Curve 25519 *默认*
+   (2) Curve 448
+   (3) NIST P-256
+   (4) NIST P-384
+   (5) NIST P-521
+   (6) Brainpool P-256
+   (7) Brainpool P-384
+   (8) Brainpool P-512
+   (9) secp256k1
+您的选择是？ 
+请设定这个密钥的有效期限。
+         0 = 密钥永不过期
+      <n>  = 密钥在 n 天后过期
+      <n>w = 密钥在 n 周后过期
+      <n>m = 密钥在 n 月后过期
+      <n>y = 密钥在 n 年后过期
+密钥的有效期限是？(0) 
+密钥永远不会过期
+这些内容正确吗？ (y/N) y
+真的要创建吗？(y/N) y
+我们需要生成大量的随机字节。在质数生成期间做些其他操作（敲打键盘
+、移动鼠标、读写硬盘之类的）将会是一个不错的主意；这会让随机数
+发生器有更好的机会获得足够的熵。
+
+sec  ed25519/0ACF9AD8D2A9937D
+     创建于：2025-12-12  有效至：永不       可用于：C   
+     信任度：绝对        有效性：绝对
+ssb  ed25519/A442A8BD5C05A571
+     创建于：2025-12-12  有效至：永不       可用于：S   
+ssb  cv25519/33086EB02C3025AC
+     创建于：2025-12-12  有效至：永不       可用于：E   
+ssb  ed25519/124BCC07E4045BE6
+     创建于：2025-12-12  有效至：永不       可用于：A   
+[ 绝对 ] (1). 何庆 Ching He <heqing@rool.me>
+
+gpg> save
+
+#+END_SRC
 ** 导出主密钥和公钥, 离线多地保存, 删除主密钥/公钥
+`gpg --export-secret-keys 0ACF9AD8D2A9937D > ./heqing@rool.me_full_keys `
+`gpg --export-secret-subkeys 0ACF9AD8D2A9937D > ./heqing@rool.me_subkeys`
+`gpg --export 0ACF9AD8D2A9937D > ./heqing@rool.me_pub`
+来个吊销密钥
+`gpg --gen-revoke 0ACF9AD8D2A9937D > ./heqing@rool.me_revoke `
+
 ** 加密/解密的过程
 ** 签署的过程
 ** 加密+签署
 ** 认证的使用办法(ssh)
+#+BEGIN_SRC bash
+下面的操作其实有点不合适和优雅, 我选择用gpg的认证子密钥来进行ssh认证, 但是并不想用gpg-agent来认证,我这里采用1password-agent来进行认证
+因为我平常用1password, 这样认证会更精细, 但是1password不支持gpg进行ssh认证, 于是我就需要用工具转换一下, 以前有一个monkeysphere的包,里面有openpgp2ssh的python工具.
+但是已经失效. 这里采用go写的一个库
+
+git clone git@github.com:pinpox/pgp2ssh.git
+cd pgp2ssh
+go build
+gpg --export-secret-subkeys --armor   0ACF9AD8D2A9937D > priv-gpg
+./pgp2ssh                                                                                                                                                              ✔  08:53:11  
+2025/12/13 08:53:12 Enter path to private PGP key (default: ./priv.asc):
+priv-gpg
+2025/12/13 08:53:18 Keys:
+2025/12/13 08:53:18 [0] 0ACF9AD8D2A9937D (primary)
+2025/12/13 08:53:18 [1] A442A8BD5C05A571 (subkey)
+2025/12/13 08:53:18 [2] 33086EB02C3025AC (subkey)
+2025/12/13 08:53:18 [3] 124BCC07E4045BE6 (subkey)
+2025/12/13 08:53:18 Choose key by index (default: 0):
+3
+2025/12/13 08:53:24 Continuing with key [3] 124BCC07E4045BE6
+2025/12/13 08:53:24 Please enter passphrase to decrypt PGP key:
+2025/12/13 08:53:34 private key type: *eddsa.PrivateKey
+2025/12/13 08:53:34 public key type: eddsa.PublicKey
+2025/12/13 08:53:34 public SSH key:
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOxYfIXQOaudQAQH63UkKIM2gTQl1TbBJ5pJvOhl3l2x
+
+2025/12/13 08:53:34 Private SSH key:
+-----BEGIN OPENSSH PRIVATE KEY-----
+
+#+END_SRC
 ** 配合yubikey使用
