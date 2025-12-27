@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>时钟 · Kindle PW3</title>
+	<style>
+		/* 适配 Kindle PW3（单色、清晰的大字体） */
+		:root{
+			--bg:#ffffff;
+			--fg:#000000;
+			--muted:#333333;
+		}
+		html,body{height:100vh;margin:0;padding:0}
+		body{
+			background:var(--bg);
+			color:var(--fg);
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+			-webkit-font-smoothing:antialiased;
+			-moz-osx-font-smoothing:grayscale;
+			-webkit-user-select:none;
+			user-select:none;
+			display:table;
+			width:100%;
+			height:100vh;
+		}
+		/* 使用 table-cell 居中，更兼容旧浏览器 */
+		.frame{
+			display:table-cell;
+			vertical-align:middle;
+			text-align:center;
+			width:90vw;
+			max-width:900px;
+			padding:200px 20px 20px 20px;
+			box-sizing:border-box;
+		}
+		.date{
+			font-size:74px;
+			color:var(--muted);
+		}
+		.weekday{
+			font-size:62px;
+			color:var(--muted);
+		}
+		.top{
+			display:flex;
+			flex-direction:row;
+			align-items:center;
+			gap:40px;
+			margin-bottom:12px;
+			justify-content:center;
+		}
+		.time{
+			font-size:218px;
+			line-height:1;
+			font-weight:600;
+			letter-spacing:4px;
+			margin:0.05em 0 0.25em 0;
+		}
+		.motto{margin-top:16px;font-size:88px;color:var(--muted);}
+		.keep{margin-top:16px;font-size:62px;color:var(--muted);}
+		/* 小屏调整 */
+		@media (max-width:420px){
+			.time{font-size:125px}
+			.date{font-size:37px}
+			.weekday{font-size:37px}
+			.keep{font-size:37px}
+			.frame{padding:200px 16px 16px 16px}
+		}
+	</style>
+</head>
+<body>
+	<div class="frame" role="application" aria-label="时钟">
+		<div class="top">
+			<div class="date" id="date">—</div>
+			<div class="weekday" id="weekday">—</div>
+		</div>
+		<div class="time" id="time">--:--</div>
+		<div class="motto" id="motto">天道酬勤</div>
+		<div class="keep" id="keep">Keep Trying</div>
+	</div>
+
+	<script>
+		// ES5 兼容：直接计算北京时间（UTC+8），并每分钟刷新一次（对电子墨水屏友好）
+		function pad(n){return n<10?('0'+n):n}
+
+		function formatDateLocale(date){
+			try{
+				return date.toLocaleDateString('zh-CN', {year:'numeric',month:'numeric',day:'numeric'});
+			}catch(e){
+				return date.getFullYear() + '年' + (date.getMonth()+1) + '月' + date.getDate() + '日';
+			}
+		}
+
+		function formatWeekday(date){
+			try{
+				if (typeof Intl === 'object' && Intl.DateTimeFormat){
+					return new Intl.DateTimeFormat('zh-CN', {weekday:'long'}).format(date);
+				}
+			}catch(e){}
+			var w = date.getDay();
+			var map = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+			return map[w];
+		}
+
+		function toBeijing(date){
+			// 将输入日期（本地时间）转换到 UTC，然后加 8 小时
+			var utc = new Date(date.getTime() + date.getTimezoneOffset()*60000);
+			var bj = new Date(utc.getTime() + 8*3600000);
+			return bj;
+		}
+
+		function updateClock(){
+			var nowLocal = new Date();
+			var bj = toBeijing(nowLocal);
+
+			var dateStr = formatDateLocale(bj);
+			var hh = pad(bj.getHours());
+			var mm = pad(bj.getMinutes());
+			var timeStr = hh + ':' + mm;
+			var weekday = formatWeekday(bj);
+
+			var elDate = document.getElementById('date');
+			var elTime = document.getElementById('time');
+			var elWeek = document.getElementById('weekday');
+			var elMotto = document.getElementById('motto');
+			var elKeep = document.getElementById('keep');
+
+			if(elDate) elDate.textContent = dateStr;
+			if(elTime) elTime.textContent = timeStr;
+			if(elWeek) elWeek.textContent = weekday;
+			if(elMotto) elMotto.textContent = '天道酬勤';
+			if(elKeep) elKeep.textContent = 'Keep Trying';
+		}
+
+		// 首次渲染
+		updateClock();
+		// 计算下一个整分钟的延时，然后每分钟更新以减少电子墨水屏刷新
+		(function scheduleMinuteTick(){
+			var now = new Date();
+			var utc = new Date(now.getTime() + now.getTimezoneOffset()*60000);
+			var bj = new Date(utc.getTime() + 8*3600000);
+			var delay = (60 - bj.getSeconds())*1000 - bj.getMilliseconds();
+			if(delay < 0) delay = 0;
+			setTimeout(function(){
+				updateClock();
+				setInterval(updateClock, 60000);
+			}, delay);
+		})();
+	</script>
+</body>
+</html>
